@@ -1,0 +1,86 @@
+{
+  "name": "Lepolankeng",
+  "version": "1.0.0",
+  "private": true,
+  "main": "main/main.js",
+  "author": "Pheta Theoha",
+  "description": "Electron + Nextjs Local POS Project",
+  "scripts": {
+    "dev": "concurrently -n \"NEXT,ELECTRON\" -c \"yellow,blue\" --kill-others \"next dev\" \"electron .\"",
+    "build": "next build && electron-builder",
+    "start": "electron-forge start",
+    "lint": "next lint",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
+  },
+  "dependencies": {
+    "electron-serve": "^2.0.0",
+    "electron-squirrel-startup": "^1.0.1",
+    "next": "14.2.3",
+    "next-auth": "^4.24.7",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-hot-toast": "^2.4.1",
+    "reactjs-popup": "^2.0.6",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^7.4.0",
+    "@electron-forge/maker-deb": "^7.4.0",
+    "@electron-forge/maker-rpm": "^7.4.0",
+    "@electron-forge/maker-squirrel": "^7.4.0",
+    "@electron-forge/maker-zip": "^7.4.0",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.4.0",
+    "@electron-forge/plugin-fuses": "^7.4.0",
+    "@electron/fuses": "^1.8.0",
+    "@prisma/client": "^5.16.0",
+    "@types/node": "^20.14.2",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "concurrently": "^8.2.2",
+    "electron": "^31.1.0",
+    "electron-builder": "^22.11.7",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.3",
+    "postcss": "^8",
+    "prisma": "^5.16.0",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.4.5"
+  },
+  "build": {
+    "appId": "ed.tester",
+    "asar": true,
+    "files": [
+      "main/**/*",
+      "dist/**/*",
+      "node_modules/**/*",
+      "package.json"
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    }
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {
+        "icon": "path/to/icon"
+      },
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "your_app_name",
+            "authors": "Your Name",
+            "description": "Your application description goes here."
+          }
+        }
+      ]
+    }
+  }
+}

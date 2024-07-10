@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>frontend</id>
+    <version>1.0.0</version>
+    <authors>Your Name</authors>
+    <owners>Your Name</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Your application description goes here.</description>
+    <tags>electron installer</tags>
+  </metadata>
+</package>
