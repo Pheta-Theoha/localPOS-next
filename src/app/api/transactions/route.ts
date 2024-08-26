@@ -16,14 +16,16 @@ export const POST = async(req: NextRequest, res: NextResponse) => {
     try {
         const transaction = await prisma.transactions.create({
             data: {
+                total: data.total,
                 amount_paid: data.amount_paid,
                 change: data.change,
+                products: data.products,
                 userId: data.userId,
-                products: {
-                    create: data.productId.map((productId: any) => ({
-                        product: { connect: { id: productId } },
-                    }))
-                }
+                // products: {
+                //     create: data.productId.map((productId: any) => ({
+                //         product: { connect: { id: productId } },
+                //     }))
+                // }
             }
         });
         return NextResponse.json(transaction);

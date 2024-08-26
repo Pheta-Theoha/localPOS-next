@@ -147,7 +147,7 @@ export default async function Admin() {
                         <ul className="m-3 text-xl">
                             {transactions.map((transaction: Transaction, index: any) => (
                                 <li key={index}>
-                                    <button className="font-semibold" onClick={() => handleTransaction(transaction)}>{transaction.userId}</button>
+                                    <button className="font-semibold" onClick={() => handleTransaction(transaction)}>{transaction.createdAt}</button>
                                 </li>
                             ))}
                         </ul>

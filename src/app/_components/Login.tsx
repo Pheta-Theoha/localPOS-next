@@ -9,9 +9,17 @@ import { UserContext } from "./userContext";
 
 export default function Login(){
     
-    const { setUsernameAndTime, username, loginTime } = useContext(UserContext);
     const router = useRouter();
+    
+    const context = useContext(UserContext);
 
+    if(!context){
+        return <div>Loading..</div>
+    }
+
+    const { setUsernameAndTime, username, loginTime } = context;
+
+    // const { setUsernameAndTime, username, loginTime } = useContext(UserContext);
 
     // useEffect(() => {
     //     signIn('auth0');

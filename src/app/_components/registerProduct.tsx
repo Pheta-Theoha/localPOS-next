@@ -1,4 +1,4 @@
-import { Dropdown, MenuItem, Select } from "@nextui-org/react";
+// import { Dropdown, MenuItem, Select } from "@nextui-org/react";
 import { FormEvent, useContext } from "react";
 import "../globals.css"
 import { useState, useEffect } from "react";
@@ -11,6 +11,7 @@ export const Product = () => {
 
     const router = useRouter();
 
+    var [changes, setChanges] = useState(0)
     const { username } = useContext(UserContext);
     const { category } = useCategory();
 
@@ -69,6 +70,32 @@ export const Product = () => {
         prod();
     }, []);
 
+    const removeProduct = async() => {
+        // const remove_formData = new FormData(event.currentTarget);
+
+        const remove_name = (document.getElementsByName('name')[0] as HTMLInputElement).value;
+        console.log("Product to remove:", remove_name);
+
+        const response = await fetch('http://localhost:3000/api/products/', {
+            method: 'DELETE',
+            headers: {'Content-Type': 'Application/json'},
+            body: JSON.stringify({remove_name})
+        })
+
+        console.log(remove_name)
+
+        if(response.ok){
+            toast.success(`${remove_name} deleted!`);
+            setChanges(prevChanges => prevChanges + 1);
+            router.refresh();
+        }else {
+            // console.log();
+            const errorData = await response.json();
+            console.log(errorData);
+            toast.error(`${remove_name} not deleted!`);
+        }
+    }
+
     const record = async(event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
@@ -80,19 +107,27 @@ export const Product = () => {
         const inStock = Number(formData.get('quantity'));
         console.log(code, name, price, quantity, category, inStock);
 
-        const response = await fetch('http://localhost:3000/api/products/', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ code, name, price, quantity, category, inStock })
-        })
-        console.log(code, name, price, quantity, category, inStock);
-        if(response.ok){
-            toast.success("Registered!");
-            router.refresh();
-        }else {
-            const errorMessage = await response.json();
-            toast.error(errorMessage.message);
+        if(!category){
+            toast.error("Select Category");
+        }else{
+            const response = await fetch('http://localhost:3000/api/products/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ code, name, price, quantity, category, inStock })
+            })
+
+            console.log(code, name, price, quantity, category, inStock);
+            if(response.ok){
+                toast.success("Registered!");
+                setChanges(prevChanges => prevChanges + 1);
+                router.refresh();
+            }else {
+                const errorMessage = await response.json();
+                toast.error("Item already registered!");
+                
+            }
         }
+        
     }
 
     const handlClick = () => {
@@ -112,15 +147,15 @@ export const Product = () => {
                                     <label className="mt-3">Name:</label>
                                     <label className="mt-3">Price(M):</label>
                                     <label className="mt-3">Quantity:</label>
-                                    <button className="text-2xl text-center border-2 border-black rounded-lg mr-12 bg-red-700 font-bold hover:bg-red-500 hover:text-3xl hover:text-red-200">Delete</button>
+                                    <button onClick={removeProduct} className="text-2xl text-center border-2 border-black rounded-lg mr-12 bg-red-700 font-bold hover:bg-red-500 hover:text-3xl hover:text-red-200">Delete</button>
                                 </div>
                                 <div className="place-items-left">
                                     <form onSubmit={record} className="grid grid-rows-4">
-                                        <input type="text" name="code" className="text-black font-semibold p-2 m-2 rounded-xl bg-slate-500 w-full" autoFocus/>
-                                        <input type="text" name="name" className="text-black font-semibold p-2 m-2 rounded-xl bg-slate-500 w-full"/>
-                                        <input type="text" name="price" className="text-black font-semibold p-2 m-2 rounded-xl bg-slate-500 w-full"/> 
-                                        <input type="number" name="quantity" className="text-black font-semibold p-2 m-2 rounded-xl bg-slate-500 w-full"/>
-                                        <input type="submit" value="Save" className="text-2xl text-center border-2 border-black rounded-lg mx-2 mt-2  bg-green-400 font-semibold hover:bg-blue-300 hover:text-3xl hover:text-blue-600"/>
+                                        <input type="text" title="" placeholder="" name="code" className="text-black font-semibold p-2 m-2 rounded-xl bg-slate-500 w-full" autoFocus/>
+                                        <input type="text" title="" placeholder="" name="name" className="text-black font-semibold p-2 m-2 rounded-xl bg-slate-500 w-full"/>
+                                        <input type="text" title="" placeholder="" name="price" className="text-black font-semibold p-2 m-2 rounded-xl bg-slate-500 w-full"/> 
+                                        <input type="number" title="" placeholder="" name="quantity" className="text-black font-semibold p-2 m-2 rounded-xl bg-slate-500 w-full"/>
+                                        <input type="submit" title="" placeholder="" value="Save" className="text-2xl text-center border-2 border-black rounded-lg mx-2 mt-2  bg-green-400 font-semibold hover:bg-blue-300 hover:text-3xl hover:text-blue-600"/>
                                     </form>
                         {/* </form> */}
                                 </div>
@@ -133,7 +168,7 @@ export const Product = () => {
                     <div>
                         <h1 className="text-center text-3xl italic underline font-semibold">Product List</h1>
                     </div>
-                    <div className="border-2 border-dotted rounded-lg border-slate-400 p-2 m-2 grid grid-cols-3 h-80 overflow-y-scroll">
+                    <div className="border-2 border-dotted rounded-lg border-slate-400 p-2 m-2 grid grid-cols-4 h-80 overflow-y-scroll">
                         <div>
                             <h1 className="p-3 text-3xl font-bold">Name</h1>
                             <ol className="p-2 text-xl font-semibold">
@@ -158,6 +193,14 @@ export const Product = () => {
                                 ))}
                             </ol>
                         </div>
+                        <div>
+                            <h1 className="p-3 text-3xl font-bold">Remaining</h1>
+                            <ol className="p-2 text-xl font-semibold">
+                                {products.map((product: Product, index: any) => (
+                                    <li key={index}>{product.inStock}</li>
+                                ))}
+                            </ol>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -175,7 +218,7 @@ export const Product = () => {
                         <div className="grid grid-rows-4 m-2">
                             <h1 className="my-2 rounded-md bg-slate-500 p-3 text-3xl">{username}</h1>
                             {/* <h1 className="my-2 rounded-md bg-slate-500 p-3 text-3xl">{}</h1> */}
-                            <h1 className="my-2 rounded-md bg-slate-500 p-3 text-3xl">{}</h1>
+                            <h1 className="my-2 rounded-md bg-slate-500 p-3 text-3xl">{changes}</h1>
                             <h1 className="my-2 rounded-md bg-slate-500 p-3 text-3xl">{formattedDate}</h1>
                             <h1 className="my-2 rounded-md bg-slate-500 p-3 text-3xl">{currentTime}</h1>
                         </div>
