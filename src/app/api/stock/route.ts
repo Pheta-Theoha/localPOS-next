@@ -2,39 +2,38 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "../../../../prisma/db";
 
 export const GET = async (req: NextRequest, res: NextResponse) => {
-    const products = await prisma.products.findMany();
+    const stock = await prisma.stock.findMany();
 
-    const serializedProducts = JSON.parse(JSON.stringify(products, (key, value) =>
-        typeof value === 'bigint' ? value.toString() : value
-    ));
+    // const serializedProducts = JSON.parse(JSON.stringify(stock, (key, value) =>
+    //     typeof value === 'bigint' ? value.toString() : value
+    // ));
 
-    return NextResponse.json(serializedProducts);
+    // return NextResponse.json(serializedProducts);
 
-    // return NextResponse.json(products);
+    return NextResponse.json(stock);
 }
 
 export const POST = async (req: NextRequest, res: NextResponse) => {
-    console.log("Products Post Request");
+    console.log("Stock Post Request");
 
     const data = await req.json();
 
     try {
-        const product = await prisma.products.create({
+        const stock = await prisma.stock.create({
             data: { 
-                name: data.name, 
-                code: data.code,
-                price: data.price, 
-                category: data.category, 
+                name: data.stock_name_add, 
+                costPrice: data.costPrice,
                 quantity: data.quantity,
+                unit_price: data.unit_price,
                 inStock: data.quantity
             }
         });
 
-        const serializedProduct = JSON.parse(JSON.stringify(product, (key, value) =>
-            typeof value === 'bigint' ? value.toString() : value
-        ));
+        // const serializedProduct = JSON.parse(JSON.stringify(product, (key, value) =>
+        //     typeof value === 'bigint' ? value.toString() : value
+        // ));
 
-        return NextResponse.json(serializedProduct);
+        return NextResponse.json(stock);
 
         // return NextResponse.json(product);
     }catch(e: any){
@@ -44,7 +43,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
 };
 
 export const DELETE = async (req: NextRequest, res: NextResponse) => {
-    console.log("Products Delete Request");
+    console.log("Stock Delete Request");
 
     const data = await req.json();
 
@@ -57,13 +56,13 @@ export const DELETE = async (req: NextRequest, res: NextResponse) => {
     }
 
     try {
-        const product = await prisma.products.delete({
+        const stock = await prisma.stock.delete({
             where: {
                 name: name
             }
         });
 
-        return NextResponse.json({ message: 'Product deleted successfully' }, {status: 200});
+        return NextResponse.json({ message: 'Stock deleted successfully' }, {status: 200});
     } catch (e: any) {
         console.log(e.message);
         return NextResponse.json({ error: e.message }, { status: 400 });
@@ -104,7 +103,7 @@ export const PUT = async (req: NextRequest) => {
             // Ensure newInStock doesn't go negative
             if (newInStock < 0) {
                 console.log("Stock goes negative");
-                return NextResponse.json({ error: `Insufficient stock for product code: ${code}` }, { status: 406 });
+                return NextResponse.json({ error: `Insufficient stock for product code: ${code}` }, { status: 400 });
             }
 
             // Update the product's inStock attribute

@@ -48,6 +48,17 @@ model transactions {
   // products TransactionsOnProducts[]
 }
 
+model stock {
+  id String @id @default(cuid())
+  name String @unique
+  costPrice Int
+  quantity Int
+  unit_price Int
+  inStock Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 // model TransactionsOnProducts {
 //   transactionId String
 //   productId String

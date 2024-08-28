@@ -45,14 +45,14 @@ export default function Login(){
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, password })
         })
-        console.log(username, password)
+        // console.log(username, password)
 
         // router.push('/cashier')
         if(response.ok){
             const loginTime = new Date().toLocaleTimeString();
-            setUsernameAndTime(username, loginTime);
             toast.success("Logged In")
             router.push('/cashier')
+            setUsernameAndTime(username, loginTime);
         }else{
             //Handle errors
             // router.push('/cashier')

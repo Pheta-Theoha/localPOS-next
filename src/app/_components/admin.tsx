@@ -7,7 +7,7 @@ export default async function Admin() {
         amount_paid: Number;
         change: Number;
         userId: String;
-        productId: String;
+        products: String;
     }
     
     interface User {
@@ -129,7 +129,7 @@ export default async function Admin() {
     return (
         <div className="drop-shadow-[0_6px_6px_rgba(0.5,0.5,0.5,0.5)] border-slate-500 border-2 rounded-md m-5 p-3 bg-slate-500 grid grid-rows-3">
             <div className="row-span-2 grid grid-cols-3 gap-2">
-                <div className="border-2 border-slate-400 rounded-md overflow-y-scroll">
+                <div className="border-2 border-slate-400 rounded-md h-[32rem] overflow-y-scroll">
                     <h1 className="sticky top-0 bg-slate-600 text-center justify-center text-3xl font-semibold">Products</h1>
                     <div className="">
                         <ul className="m-3 text-xl">
@@ -141,7 +141,7 @@ export default async function Admin() {
                         </ul>
                     </div>
                 </div>            
-                <div className="border-2 border-slate-400 rounded-md overflow-y-scroll">
+                <div className="border-2 border-slate-400 rounded-md h-[32rem] overflow-x-scroll">
                     <h1 className="sticky top-0 bg-slate-600 text-center justify-center text-3xl font-semibold">Transactions</h1>
                     <div className="">
                         <ul className="m-3 text-xl">
@@ -154,7 +154,7 @@ export default async function Admin() {
                     </div>
                     
                 </div>            
-                <div className="border-2 border-slate-400 rounded-md overflow-y-scroll">
+                <div className="border-2 border-slate-400 rounded-md h-[32rem] overflow-y-scroll">
                     <h1 className="sticky top-0 bg-slate-600 text-center justify-center text-3xl font-semibold">Users</h1>
                     <div className="">
                         <ul className="m-3 text-xl">
@@ -169,35 +169,47 @@ export default async function Admin() {
             </div>
             <div className="border-2 border-dotted border-slate-400 rounded-lg my-2 h-64">
                 <h1 className="text-center text-3xl font-semibold italic">More Information</h1>
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-4">
                     <div className="m-2 border-2 border-double border-slate-400 rounded">
                         <h1 className="text-2xl text-center font-semibold">Product</h1>
                         <div className="grid grid-rows-4 p-3">
                             <div className="grid grid-cols-2">
                                 <h1 className="text-xl font-bold">Name:</h1>
-                                <h1 className="text-xl font-bold">{clickedProduct?.name}</h1>
+                                <h1 className="text-xl">{clickedProduct?.name}</h1>
                             </div>
                             <div className="grid grid-cols-2">
                                 <h1 className="text-xl font-bold">Price(M):</h1>
-                                <h1 className="text-xl font-bold">{clickedProduct?.price?.toString()}</h1>
+                                <h1 className="text-xl">{clickedProduct?.price?.toString()}</h1>
                             </div>
                             <div className="grid grid-cols-2">
                                 <h1 className="text-xl font-bold">Quantity:</h1>
-                                <h1 className="text-xl font-bold">{clickedProduct?.quantity?.toString()}</h1>
+                                <h1 className="text-xl">{clickedProduct?.quantity?.toString()}</h1>
                             </div>
                             <div className="grid grid-cols-2">
                                 <h1 className="text-xl font-bold">In Stock:</h1>
-                                <h1 className="text-xl font-bold">{clickedProduct?.inStock?.toString() }</h1>
+                                <h1 className="text-xl">{clickedProduct?.inStock?.toString() }</h1>
                             </div>
                         </div>
                     </div>
-                    <div className="m-2 border-2 border-double border-slate-400 rounded">
+                    <div className="m-2 border-2 border-double col-span-2 border-slate-400 rounded">
                         <h1 className="text-2xl text-center font-semibold">Transaction</h1>
                         <div className="grid grid-rows-4 p-3">
-                            <h1 className="text-xl font-bold">Date:</h1>
-                            <h1 className="text-xl font-bold">Cashier:</h1>
-                            <h1 className="text-xl font-bold">Items:</h1>
-                            <h1 className="text-xl font-bold">Cash:</h1>
+                            <div className="grid grid-cols-2">
+                                <h1 className="text-xl font-bold">Date:</h1>
+                                <h1 className="text-xl">{clickedTransactions?.createdAt.toString()}</h1>
+                            </div>
+                            <div className="grid grid-cols-2">
+                                <h1 className="text-xl font-bold">Cashier:</h1>
+                                <h1 className="text-xl">{clickedTransactions?.userId?.toString()}</h1>
+                            </div>
+                            <div className="grid grid-cols-2">
+                                <h1 className="text-xl font-bold">Products:</h1>
+                                <h1 className="text-xl">{clickedTransactions?.products?.toString()}</h1>
+                            </div>
+                            <div className="grid grid-cols-2">
+                                <h1 className="text-xl font-bold">Cash:</h1>
+                                <h1 className="text-xl">{clickedTransactions?.amount_paid?.toString()}</h1>
+                            </div>
                         </div>
                     </div>
                     <div className="m-2 border-2 border-double border-slate-400 rounded">
@@ -205,11 +217,11 @@ export default async function Admin() {
                         <div className="grid grid-rows-4 p-3">
                             <div className="grid grid-cols-2">
                                 <h1 className="text-xl font-bold">Username:</h1>
-                                <h1 className="text-xl font-bold">{clickedUser?.username}</h1>
+                                <h1 className="text-xl">{clickedUser?.username}</h1>
                             </div>
                             <div className="grid grid-cols-2">
                                 <h1 className="text-xl font-bold">Role:</h1>
-                                <h1 className="text-xl font-bold">{clickedUser?.role}</h1>
+                                <h1 className="text-xl">{clickedUser?.role}</h1>
                             </div>
                             <h1 className="text-xl font-bold">Logged In:</h1>
                             <h1 className="text-xl font-bold">Logged out:</h1>
