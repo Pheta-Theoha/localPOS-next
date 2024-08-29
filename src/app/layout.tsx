@@ -18,7 +18,7 @@ export default function RootLayout({
   // const currentPath = usePathname()
   return (
     <html lang="en">
-      <body className="bg-gradient-to-r from-slate-400 to-gray-700 h-full ">
+      <body className="bg-gradient-to-r from-white to-gray-400 h-full ">
         <UserProvider>
           <CategoryProvider>
           {/* <NavBar/> */}

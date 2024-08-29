@@ -10,6 +10,15 @@
   background-image: url(../../public/wooden.webp);
 }
 
+/* .logo2 {
+  background-image: url(../../public/logo2.png);
+} */
+
+/* .logo1 {
+  background-color: rgb(185, 106, 14);
+  border-radius: 10px;
+} */
+
 ::-webkit-scrollbar {
   display: none;
 }

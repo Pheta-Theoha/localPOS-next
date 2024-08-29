@@ -25,15 +25,15 @@ export default function Cashier(){
     return (
         <div className="">
             {pop && <PopupGfg isClicked={pop}/>}
-            <div className="grid grid-cols-3 gap-5 px-5 py-2">
+            <div className="grid grid-cols-3 gap-5 px-5 pt-2">
                 <div className="p-2 text-center text-3xl font-semibold">
-                    <button onClick={handleAdmin} className="drop-shadow-[0_3px_3px_rgba(10,10,10,10)] border-2 border-dotted border-red-900 px-10 py-1 bg-red-800 rounded-md hover:bg-red-500 hover:text-red-900">ADMIN</button>
+                    <button onClick={handleAdmin} className="drop-shadow-[0_3px_3px_rgba(10,10,10,10)] border-2 border-transparent px-10 py-1 bg-red-600 rounded-md hover:bg-red-400 hover:text-red-900">ADMIN</button>
                 </div>
                 <div className="">
-                    <h1 className="p-2 text-center text-3xl font-bold">Transaction Register</h1>
+                    <h1 className="p-2 drop-shadow-[0_2px_2px_rgba(10,10,10,10)] text-center text-6xl text-amber-800 font-semibold italic">Lepolankeng</h1>
                 </div>
                 <div className="p-2 text-center text-3xl font-semibold">
-                    <button onClick={handleClick} className="drop-shadow-[0_3px_3px_rgba(10,10,10,10)] border-2 border-dotted border-green-900 px-10 py-1 bg-green-800 rounded-md hover:bg-green-400 hover:text-green-900">Register Product</button>
+                    <button onClick={handleClick} className="drop-shadow-[0_3px_3px_rgba(10,10,10,10)] border-2 border-transparent px-10 py-1 bg-green-600 rounded-md hover:bg-green-400 hover:text-green-900">Register Product</button>
                 </div>
             </div>
             <div>

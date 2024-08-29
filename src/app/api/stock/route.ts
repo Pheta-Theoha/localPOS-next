@@ -23,9 +23,9 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
             data: { 
                 name: data.stock_name_add, 
                 costPrice: data.costPrice,
-                quantity: data.quantity,
+                quantity: data.stock_quantity,
                 unit_price: data.unit_price,
-                inStock: data.quantity
+                inStock: data.stock_quantity
             }
         });
 
@@ -49,7 +49,7 @@ export const DELETE = async (req: NextRequest, res: NextResponse) => {
 
     console.log("Request Data:", data);
 
-    const name = data.remove_name;
+    const name = data.stock_item;
 
     if (!name) {
         return NextResponse.json({ error: 'Name is required' }, { status: 400 });

@@ -14,16 +14,16 @@ export default function AdminPage(){
     }
 
     return (
-        <div className="bg-gradient-to-r from-slate-400 to-red-900  p-1">
+        <div className="drop-shadow-[0_3px_3px_rgba(20,20,20,20)] bg-gradient-to-r from-slate-400 to-red-800  p-1">
             <div className="grid grid-cols-3 gap-5 px-5 py-2">
                 <div className="p-2 text-center text-3xl font-semibold">
-                    <Link href="/cashier" className="border-2 border-dotted border-red-900 px-10 py-1 bg-red-800 rounded-md hover:bg-red-500 hover:text-red-900">Logout</Link>
+                    <Link href="/cashier" className="drop-shadow-[0_3px_3px_rgba(20,20,20,20)] border-2 border-transparent px-10 py-1 bg-red-800 rounded-md hover:bg-red-500 hover:text-red-900">Logout</Link>
                 </div>
                 <div className="">
-                    <h1 className="p-2 text-center text-3xl font-bold">Administrator Panel</h1>
+                    <h1 className="p-2 text-center drop-shadow-[0_2px_2px_rgba(20,20,20,20)] text-red-500 text-4xl font-bold">Administrator Panel</h1>
                 </div>
                 <div className="p-2 text-center text-3xl font-semibold">
-                    <Link href='/admin/addUser' className="border-2 border-dotted border-green-900 px-10 py-1 bg-green-800 rounded-md hover:bg-green-400 hover:text-green-900">ADD USER</Link>
+                    <Link href='/admin/addUser' className="drop-shadow-[0_3px_3px_rgba(20,20,20,20)] border-2 border-transparent px-10 py-1 bg-green-800 rounded-md hover:bg-green-400 hover:text-green-900">ADD USER</Link>
                 </div>
             </div>
             <div>

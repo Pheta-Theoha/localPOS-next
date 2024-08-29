@@ -4,7 +4,13 @@ import prisma from "../../../../prisma/db";
 
 export const GET = async(req: NextRequest, res: NextResponse) => {
     console.log("Get Transactions")
-    const transactions = await prisma.transactions.findMany();
+    const transactions = await prisma.transactions.findMany({
+        orderBy: [
+            {
+                createdAt: 'desc'
+            }
+        ]
+    });
 
     return NextResponse.json(transactions);
 }
@@ -21,11 +27,6 @@ export const POST = async(req: NextRequest, res: NextResponse) => {
                 change: data.change,
                 products: data.products,
                 userId: data.userId,
-                // products: {
-                //     create: data.productId.map((productId: any) => ({
-                //         product: { connect: { id: productId } },
-                //     }))
-                // }
             }
         });
         return NextResponse.json(transaction);
