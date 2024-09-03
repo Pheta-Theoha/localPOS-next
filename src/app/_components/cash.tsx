@@ -51,7 +51,7 @@ export default function Cash() {
     }
 
     var product_count: Record<string, number> = {};
-    var stock_count: Record<string, number> = {};
+    var stock_count_global: Record<string, number> = {};
 
     const handleCashOut = async (e: any) => {
 
@@ -93,19 +93,33 @@ export default function Cash() {
                             body: JSON.stringify(product_count)
                         })
 
-                        // console.log(""product_count)
+                        console.log(product_count)
 
                         if(response.ok){
-                            console.log("Modification successful");
+                            console.log("Product Modification successful");
+
+                            let stock_name_element = document.getElementById('item') as HTMLInputElement | null;
+                            let stock_value_element = document.getElementById('quantity') as HTMLInputElement | null;
+                            let sell = true
+
+                            const stock_name = stock_name_element?.value || '';
+                            const stock_value = parseInt(stock_value_element?.value || '0', 10);
+                            console.log("Stock count global:", stock_count_global)
+
                             
                             const stock_mod_response = await  fetch('http://localhost:3000/api/stock', {
                                 method: 'PUT',
                                 headers: {'Content-Type': 'application/json'},
-                                body: JSON.stringify(stock_count)
+                                // body: JSON.stringify({stock_name, stock_value, sell})
+                                body: JSON.stringify({stock_count_global, sell})
                             })
 
                             if(stock_mod_response.ok){
                                 console.log("Stock modified successfully!");
+                                toast.success("Paid!");
+                                setTimeout(() => {
+                                    router.refresh()
+                                }, 5000)
                             }else {
                                 toast.error("Stock modification failed");
                                 throw new Error("Stock modification failed");
@@ -117,12 +131,6 @@ export default function Cash() {
                             console.log("Modification failed");
                             throw new Error("Modification failed!");
                         }
-
-                        toast.success("Sold!")
-
-                        setTimeout(() =>{
-                            router.refresh()
-                        }, 5000)
                     }
                 }catch(error){
                     console.log(e.message)
@@ -134,6 +142,22 @@ export default function Cash() {
         }else {
             toast.error("Enter amount paid!");
         }
+    }
+
+    var real = 0;
+
+    const clear = async() => {
+        // e.preventDefault();
+
+        let quantity_display = document.getElementById('quantity') as HTMLInputElement | null;
+        let category_display = document.getElementById('category') as HTMLHeadingElement | null;
+        let cost_display = document.getElementById('cost') as HTMLParagraphElement | null;
+        let remaining_display = document.getElementById('remaining') as HTMLParagraphElement | null;
+
+        if(quantity_display) quantity_display.value = ''
+        if(category_display) category_display.textContent = ''
+        if (cost_display) cost_display.textContent = ''
+        if(remaining_display) remaining_display.textContent = ''
     }
 
     const stockQueue = async() => {
@@ -161,6 +185,8 @@ export default function Cash() {
                 const data = await stock_response.json();
                 console.log("Fetched Stock:", data);
 
+                let capture = quantity_display.value;
+
                 if (item_display) item_display.value = `${data.name}`;
                 if (category_display) category_display.textContent = 'stock';
                 if (cost_display) cost_display.textContent = `${data.unit_price}`;
@@ -184,13 +210,30 @@ export default function Cash() {
                     items_list.innerHTML = total_items.map(item => `${item.name}`).join(',');
                 }
 
-                stock_count[name] = (stock_count[name] || 0) + 1
-
+                
                 // Update the specific cost and total price
-                if (cost_spec) cost_spec.textContent = `${data.unit_price}`;
+                if (cost_spec) {
+                    if(capture){
+                        real = Number(data.unit_price) * Number(capture) | 0;
+                        console.log(capture);
+                        console.log(real)
+                        cost_spec.textContent = `${real}`;
+                        // cost_spec.textContent = `${data.unit_price * Number(quantity_display?.value)}`;
+                        real_total += real;  // Assuming price is a number
+                        console.log(real_total)
+                    }else{
+                        cost_spec.textContent = `${data.unit_price}`
+                        real_total += data.unit_price;  // Assuming price is a number
+                    }
+                }
+                
+                if (real == 0){
+                    stock_count_global[name] = (stock_count_global[name] || 0) + 1
+                }else{
+                    stock_count_global[name] = (stock_count_global[name] || 0) + Number(capture)
+                }
                 
                 // Add to the total and update the total display
-                real_total += data.unit_price;  // Assuming price is a number
                 if (total) total.textContent = `${real_total}`;
                 if (total_big) total_big.textContent = `M${real_total}`;
 
@@ -349,7 +392,7 @@ export default function Cash() {
                         </div>
                         <div className="m-5 grid grid-rows-6 text-xl">
                             <input id="codeInput" onChange={(e) => prod(e.target.value)} type="number" name="code" title="code" className="my-2 rounded-md bg-gradient-to-l from-slate-500 to-slate-400 text-2xl px-2 w-full" autoFocus/>
-                            <input id="item" className="my-2 rounded-md bg-gradient-to-l from-slate-500 to-slate-400 text-2xl px-2 w-full"/>
+                            <input id="item" onChange={(e) => clear(e.target.value)} className="my-2 rounded-md bg-gradient-to-l from-slate-500 to-slate-400 text-2xl px-2 w-full"/>
                             <input id="quantity" className="my-2 rounded-md bg-gradient-to-l from-slate-500 to-slate-400 text-2xl px-2 w-full"/>
                             <h1 id="category" className="my-2 rounded-md bg-gradient-to-l from-slate-500 to-slate-400 text-2xl px-2 w-full">{}</h1>
                             <h1 id="cost" className="my-2 rounded-md bg-gradient-to-l from-slate-500 to-slate-400 text-2xl px-2 w-full">{}</h1>
@@ -381,7 +424,7 @@ export default function Cash() {
                         </div>
                     </div>
                     <div className="text-center">
-                        <button onClick={handleCashOut} className="drop-shadow-[0_3px_3px_rgba(10,10,10,10)] border-2 border-transparent bg-blue-400 hover:bg-blue-300 rounded-md mb-2 p-1 px-3 text-3xl">Close Register</button>
+                        <button onClick={() => {router.push('/')}} className="drop-shadow-[0_3px_3px_rgba(10,10,10,10)] border-2 border-transparent bg-blue-400 hover:bg-blue-300 rounded-md mb-2 p-1 px-3 text-3xl">Close Register</button>
                     </div>
                 </div>
             </div>

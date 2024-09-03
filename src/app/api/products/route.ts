@@ -72,9 +72,10 @@ export const DELETE = async (req: NextRequest, res: NextResponse) => {
 
 export const PUT = async (req: NextRequest) => {
     try {
-        console.log("It reaches");
+        console.log("It reaches products");
         // Parse the incoming data
         const updates = await req.json();
+        
 
         // Loop through each key-value pair and update the corresponding product
         for (const code of Object.keys(updates)) {

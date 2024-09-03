@@ -104,25 +104,33 @@ export const Product = () => {
         stoc();
     }, [])
 
+    var product_count: Record<string, number> = {};
+    var stock_count: Record<string, number> = {};
+
     const reStock = async() => {
         console.log("Restocking!");
 
         let code = (document.getElementById("name") as HTMLInputElement).value;
         let name = (document.getElementById("stock_name_add") as HTMLInputElement).value;
 
+        console.log(code);
+
         if(code){
 
             let code_quantity = (document.getElementById("quantity") as HTMLInputElement).value;
             
-            let product_response = await fetch('http://localhost:3000/api/products/', {
+            let product_response = await fetch(`http://localhost:3000/api/products/${code}`, {
                 method: 'PUT',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({code, code_quantity})
+                body: JSON.stringify({code_quantity})
             })
 
             if(product_response.ok){
                 console.log("Product updated");
-                toast.error("Product Restocked");
+                toast.success("Product Restocked");
+                setTimeout(() => {
+                    router.refresh();
+                }, 1000)
             }else{
                 console.log("Product not updated");
                 toast.error("Product not stocked");
@@ -130,10 +138,10 @@ export const Product = () => {
         }else {
             let stock_quantity = (document.getElementById("stock_quantity") as HTMLInputElement).value;
             
-            let stock_response = await fetch('http://localhost:3000/api/stock/', {
+            let stock_response = await fetch(`http://localhost:3000/api/stock/${name}`, {
                 method: 'PUT',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({name, stock_quantity})
+                body: JSON.stringify({stock_quantity})
             })
 
             if(stock_response.ok){
@@ -141,7 +149,7 @@ export const Product = () => {
                 toast.success("Stock updated!")
                 setTimeout(() => {
                     router.refresh();
-                })
+                }, 1000)
             }
         }
     }

@@ -9,6 +9,7 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
     // ));
 
     // return NextResponse.json(serializedProducts);
+    
 
     return NextResponse.json(stock);
 }
@@ -75,45 +76,56 @@ export const PUT = async (req: NextRequest) => {
         // Parse the incoming data
         const updates = await req.json();
 
+        let stock_info = updates.stock_count_global
+        console.log(stock_info)
+
         // Loop through each key-value pair and update the corresponding product
-        for (const code of Object.keys(updates)) {
-            const value = updates[code];
-            console.log(`Processing code: ${code}, value: ${value}`);
+        for (const name of Object.keys(stock_info)) {
+            console.log('passed data:',name)
+            const value = stock_info[name];
+            console.log(`Processing name: ${name}, value: ${value}`);
 
             // Convert code to an integer
-            const parsedCode = parseInt(code, 10);
+            // const parsedCode = parseInt(code, 10);
 
-            if (isNaN(parsedCode)) {
-                console.log("Invalid Code format");
-                return NextResponse.json({ error: `Invalid code format: ${code}` }, { status: 400 });
-            }
+            // if (isNaN(parsedCode)) {
+            //     console.log("Invalid Code format");
+            //     return NextResponse.json({ error: `Invalid code format: ${code}` }, { status: 400 });
+            // }
 
             // Fetch the current product
-            const product = await prisma.products.findUnique({
-                where: { code: parsedCode },
+            const stock = await prisma.stock.findUnique({
+                where: { name: name },
             });
 
-            if (!product) {
-                return NextResponse.json({ error: `Product not found: ${code}` }, { status: 404 });
+            if (!stock) {
+                console.log(`Stock not found: ${name}`)
+                return NextResponse.json({ error: `Stock not found: ${name}` }, { status: 404 });
             }
 
+            let newInStock = 0;
+
             // Calculate the new inStock value
-            const newInStock = product.inStock - value;
+            if(!updates.sell){
+                newInStock = stock.inStock + value;
+            }else{
+                newInStock = stock.inStock - value;
+            }
 
             // Ensure newInStock doesn't go negative
             if (newInStock < 0) {
                 console.log("Stock goes negative");
-                return NextResponse.json({ error: `Insufficient stock for product code: ${code}` }, { status: 400 });
+                return NextResponse.json({ error: `Insufficient stock for product code: ${name}` }, { status: 406 });
             }
 
             // Update the product's inStock attribute
-            await prisma.products.update({
-                where: { code: parsedCode },
+            await prisma.stock.update({
+                where: { name: name },
                 data: { inStock: newInStock }
             });
         }
 
-        return NextResponse.json({ message: 'Products updated successfully' }, { status: 200 });
+        return NextResponse.json({ message: 'Stock updated successfully' }, { status: 200 });
 
     } catch (e: any) {
         console.error(e.message);
