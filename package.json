@@ -6,7 +6,7 @@
   "author": "Pheta Theoha",
   "description": "Electron + Nextjs Local POS Project",
   "scripts": {
-    "dev": "concurrently -n \"NEXT,ELECTRON\" -c \"yellow,blue\" --kill-others \"next dev\" \"electron .\"",
+    "dev": "next dev",
     "build": "next build && electron-builder",
     "start": "electron-forge start",
     "lint": "next lint",

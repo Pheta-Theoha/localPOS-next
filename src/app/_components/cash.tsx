@@ -146,7 +146,7 @@ export default function Cash() {
 
     var real = 0;
 
-    const clear = async() => {
+    const clear = async(e: any) => {
         // e.preventDefault();
 
         let quantity_display = document.getElementById('quantity') as HTMLInputElement | null;
@@ -185,7 +185,7 @@ export default function Cash() {
                 const data = await stock_response.json();
                 console.log("Fetched Stock:", data);
 
-                let capture = quantity_display.value;
+                let capture = quantity_display?.value;
 
                 if (item_display) item_display.value = `${data.name}`;
                 if (category_display) category_display.textContent = 'stock';
