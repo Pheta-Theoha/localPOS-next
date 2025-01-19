@@ -8,6 +8,7 @@ export default async function Admin() {
         change: Number;
         userId: String;
         products: String;
+        createdAt: String;
     }
     
     interface User {
@@ -29,8 +30,8 @@ export default async function Admin() {
     interface Stock {
         name: String;
         cost_price: Number;
-        stock_quantity: Number;
-        unit_price: Number;
+        quantity: Number;
+        price: Number;
         inStock: Number;
     }
 

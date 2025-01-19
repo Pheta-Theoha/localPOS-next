@@ -82,19 +82,6 @@ export const PUT = async (req: NextRequest, { params }: { params: { name: string
         const data = await req.json();
         const name = params.name;
 
-        // Loop through each key-value pair and update the corresponding product
-        // for (let name of Object.keys(updates)) {
-        //     const value = updates[name];
-        //     console.log(`Processing name: ${name}, value: ${value}`);
-
-            // Convert code to an integer
-            // const parsedCode = parseInt(name, 10);
-
-            // if (isNaN(parsedCode)) {
-            //     console.log("Invalid Code format");
-            //     return NextResponse.json({ error: `Invalid code format: ${code}` }, { status: 400 });
-            // }
-
             // Fetch the current product
             const stock = await prisma.stock.findUnique({
                 where: { name: name },

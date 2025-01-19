@@ -2,7 +2,7 @@
 import { FormEvent, useContext } from "react";
 import "../globals.css"
 import { useState, useEffect } from "react";
-import { UserContext } from "./userContext";
+// import { UserContext } from "./userContext";
 import { useCategory } from "./categoryContext";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -12,7 +12,7 @@ export const Product = () => {
     const router = useRouter();
 
     var [changes, setChanges] = useState(0)
-    const { username } = useContext(UserContext);
+    // const { username } = useContext(UserContext);
     const { category } = useCategory();
 
     const today = new Date();
@@ -313,7 +313,7 @@ export const Product = () => {
                             <h1 className="p-3 text-3xl font-bold">Price</h1>
                             <ol className="p-2 text-xl font-semibold">
                                 {products.map((product: Product, index: any) => (
-                                    <li key={index}>M{product.price}</li>
+                                    <li key={index}>M{String(product.price)}</li>
                                 ))}
                             </ol>
                         </div>
@@ -321,7 +321,7 @@ export const Product = () => {
                             <h1 className="p-3 text-3xl font-bold">Quantity</h1>
                             <ol className="p-2 text-xl font-semibold">
                                 {products.map((product: Product, index: any) => (
-                                    <li key={index}>{product.quantity}</li>
+                                    <li key={index}>{String(product.quantity)}</li>
                                 ))}
                             </ol>
                         </div>
@@ -329,7 +329,7 @@ export const Product = () => {
                             <h1 className="p-3 text-3xl font-bold">In Stock</h1>
                             <ol className="p-2 text-xl font-semibold">
                                 {products.map((product: Product, index: any) => (
-                                    <li key={index}>{product.inStock}</li>
+                                    <li key={index}>{String(product.inStock)}</li>
                                 ))}
                             </ol>
                         </div>
@@ -380,7 +380,7 @@ export const Product = () => {
                             <h1 className="p-3 text-3xl font-bold">Quantity</h1>
                             <ol className="p-2 text-xl font-semibold">
                                 {stock.map((stock: Stock, index: any) => (
-                                    <li key={index}>{stock.quantity}</li>
+                                    <li key={index}>{String(stock.quantity)}</li>
                                 ))}
                             </ol>
                         </div>
@@ -388,7 +388,7 @@ export const Product = () => {
                             <h1 className="p-3 text-3xl font-bold">In Stock</h1>
                             <ol className="p-2 text-xl font-semibold">
                                 {stock.map((stock: Stock, index: any) => (
-                                    <li key={index}>{stock.inStock}</li>
+                                    <li key={index}>{String(stock.inStock)}</li>
                                 ))}
                             </ol>
                         </div>

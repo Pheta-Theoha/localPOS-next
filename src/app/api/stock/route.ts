@@ -30,9 +30,6 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
             }
         });
 
-        // const serializedProduct = JSON.parse(JSON.stringify(product, (key, value) =>
-        //     typeof value === 'bigint' ? value.toString() : value
-        // ));
 
         return NextResponse.json(stock);
 
@@ -84,14 +81,6 @@ export const PUT = async (req: NextRequest) => {
             console.log('passed data:',name)
             const value = stock_info[name];
             console.log(`Processing name: ${name}, value: ${value}`);
-
-            // Convert code to an integer
-            // const parsedCode = parseInt(code, 10);
-
-            // if (isNaN(parsedCode)) {
-            //     console.log("Invalid Code format");
-            //     return NextResponse.json({ error: `Invalid code format: ${code}` }, { status: 400 });
-            // }
 
             // Fetch the current product
             const stock = await prisma.stock.findUnique({

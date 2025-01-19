@@ -19,26 +19,14 @@ export default function Login(){
 
     const { setUsernameAndTime, username, loginTime } = context;
 
-    // const { setUsernameAndTime, username, loginTime } = useContext(UserContext);
-
-    // useEffect(() => {
-    //     signIn('auth0');
-    // }, []);
-
-    // return (
-    //     <div className='grid h-screen w-screen place-items-center'>           
-    //       <div className='mx-auto w-48 min-h-fit'>                 
-    //             Welcome to my app           
-    //       </div>       
-    //     </div>
-    // );
-
     async function handleSubmit(event: FormEvent<HTMLFormElement>){
         event.preventDefault();
 
         const formData = new FormData(event.currentTarget)
         const username = formData.get('username')
         const password = formData.get('password')
+
+        const usernameString = typeof username === "string" ? username : null;
 
         const response = await fetch('http://localhost:3000/api/auth/', {
             method: 'POST',
@@ -52,7 +40,7 @@ export default function Login(){
             const loginTime = new Date().toLocaleTimeString();
             toast.success("Logged In")
             router.push('/cashier')
-            setUsernameAndTime(username, loginTime);
+            setUsernameAndTime(usernameString, loginTime);
         }else{
             //Handle errors
             // router.push('/cashier')

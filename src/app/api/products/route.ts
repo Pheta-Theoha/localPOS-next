@@ -10,7 +10,6 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
 
     return NextResponse.json(serializedProducts);
 
-    // return NextResponse.json(products);
 }
 
 export const POST = async (req: NextRequest, res: NextResponse) => {
@@ -99,6 +98,9 @@ export const PUT = async (req: NextRequest) => {
                 return NextResponse.json({ error: `Product not found: ${code}` }, { status: 404 });
             }
 
+            if(product.inStock === null){
+                return NextResponse.json({ error: `Stock value is null for product code: ${code}` }, { status: 400 });
+            }
             // Calculate the new inStock value
             const newInStock = product.inStock - value;
 

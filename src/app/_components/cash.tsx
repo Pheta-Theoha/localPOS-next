@@ -22,6 +22,32 @@ export default function Cash() {
     const context = useContext(UserContext);
     // const { username, loginTime, previousUser } = useContext(UserContext);
 
+    if(!context){
+        return (
+            <div style={{ textAlign: "center", marginTop: "20px" }}>
+                <h1>Oops!</h1>
+                <p>
+                    It seems like we’re missing some important information. Please make sure
+                    you’re logged in or try refreshing the page.
+                </p>
+                <p>If the issue persists, contact support for assistance.</p>
+                <button
+                    onClick={() => router.push("/")}
+                    style={{
+                        padding: "10px 20px",
+                        backgroundColor: "#0070f3",
+                        color: "#fff",
+                        border: "none",
+                        borderRadius: "5px",
+                        cursor: "pointer",
+                        marginTop: "10px",
+                    }}
+                >
+                    Go to Home
+                </button>
+            </div>
+        );
+    }
     const { username, loginTime, previousUser } = context;
 
     const today = new Date();

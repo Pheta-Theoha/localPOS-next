@@ -22,40 +22,6 @@ export default function Login(){
     const handleSubmit = async (e: any) => {
         e.preventDefault();
         router.push('/cashier')
-
-        // try {
-        //     const response = await fetch("http://localhost:3000/", {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json'
-        //         },
-        //         body: JSON.stringify(formData)
-        //     });
-        
-        //     if (!response.ok) {
-        //         // Handle specific HTTP status codes if needed
-        //         if (response.status === 400) {
-        //             throw new Error('Bad request - check your data');
-        //         } else if (response.status === 401) {
-        //             throw new Error('Unauthorized - check your credentials');
-        //         } else {
-        //             throw new Error('Server error - please try again later');
-        //         }
-        //     }
-        
-        //     const data = await response.json();
-        //     console.log('Form submitted successfully:', data);
-        //     alert('Success');
-        //     // Reset form after successful submission
-        //     setFormData({
-        //         username: '',
-        //         password: '',
-        //     });
-        // } catch (error: any) {
-        //     console.error('Error submitting form:', error.message);
-        //     alert(error.message);
-        // }
-        // console.log('Form Data:', formData)
     }
     
     return (

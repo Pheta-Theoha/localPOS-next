@@ -40,37 +40,6 @@ export const GET = async (req: NextRequest, { params }: { params: { code: string
     }
 };
 
-// export const PUT = async (req: NextRequest, { params }: { params: { code: string } }) => {
-//     try {
-//         // Parse the incoming data
-//         const updates = await req.json();
-
-//         // Loop through each key-value pair and update the corresponding product
-//         for (const code of Object.keys(updates)) {
-//             const value = updates[code];
-
-//             // Convert code to integer
-//             const parsedCode = parseInt(code, 10);
-
-//             if (isNaN(parsedCode)) {
-//                 return NextResponse.json({ error: `Invalid code format: ${code}` }, { status: 400 });
-//             }
-
-//             // Update the product inStock attribute
-//             await prisma.products.update({
-//                 where: { code: parsedCode },
-//                 data: { inStock: value }
-//             });
-//         }
-
-//         return NextResponse.json({ message: 'Products updated successfully' }, { status: 200 });
-
-//     } catch (e: any) {
-//         console.error(e.message);
-//         return NextResponse.json({ error: e.message }, { status: 500 });
-//     }
-// };
-
 export const PUT = async (req: NextRequest, { params }: { params: { code: string } }) => {
     try {
         console.log("It reaches");
@@ -78,18 +47,8 @@ export const PUT = async (req: NextRequest, { params }: { params: { code: string
         const data = await req.json();
         const code = params.code;
 
-        // Loop through each key-value pair and update the corresponding product
-        // for (let name of Object.keys(updates)) {
-        //     const value = updates[name];
-        //     console.log(`Processing name: ${name}, value: ${value}`);
-
             // Convert code to an integer
             const parsedCode = parseInt(code, 10);
-
-            // if (isNaN(parsedCode)) {
-            //     console.log("Invalid Code format");
-            //     return NextResponse.json({ error: `Invalid code format: ${code}` }, { status: 400 });
-            // }
 
             // Fetch the current product
             const products = await prisma.products.findUnique({

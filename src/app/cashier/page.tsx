@@ -4,8 +4,6 @@ import { useRouter } from "next/navigation";
 import Cash from "../_components/cash";
 import { useState } from "react";
 import PopupGfg from "../_components/popup";
-import Model from "../_components/model";
-import toast from "react-hot-toast";
 
 export default function Cashier(){
     
